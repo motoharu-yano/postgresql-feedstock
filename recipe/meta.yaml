@@ -75,6 +75,7 @@ outputs:
         - libxml2
         - msinttypes       # [win and vc<14]
         - {{ pin_subpackage('libpq', exact=True) }}
+        - python {{ python }}
       run:
         - {{ pin_subpackage('libpq', exact=True) }}
         - krb5
@@ -157,6 +158,7 @@ outputs:
         - tzdata          # [not win]
         - zlib
         - msinttypes       # [win and vc<14]
+        - python {{ python }}
       run:
         - python {{ python }}
     script: install_runtime.sh   # [unix]
