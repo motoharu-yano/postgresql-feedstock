@@ -12,7 +12,7 @@ source:
     - patches/0001-fix-win-zlib-name.patch
     - patches/0002-disable-new-dtags.patch
     - patches/fix_gss_win64.patch  # [win64]
-    - patches/0004-fix-windows-openssl-links-for-openssl-1.1.1.patch
+    - patches/0004-fix-windows-openssl-links-for-openssl-1.1.1.patch [win]
     - patches/fix_gssapi_setenv_win.patch  # [win]
 
 build:
@@ -25,6 +25,7 @@ requirements:
     - {{ compiler('cxx') }}
     - {{ compiler('fortran') }}  # [not win]
     - make                       # [unix]
+    - sysroot_linux-64=2.17 # [unix]
   host:
     - m2-bison         # [win]
     - m2-diffutils     # [win]
@@ -43,11 +44,13 @@ requirements:
     - vc  # [win]
     - libuuid         # [not win]
     - tzcode          # [not win]
+    - tzdata          # [not win]
   run:
     - krb5
     - openssl
     - readline        # [not win]
     - tzcode          # [not win]
+    - tzdata          # [not win]
 
 outputs:
   - name: postgresql
@@ -60,12 +63,14 @@ outputs:
         - {{ compiler('c') }}
         - perl                 # [win]
         - make                 # [unix]
+        - sysroot_linux-64=2.17 # [unix]
       host:
         # these are here for sake of run_exports taking effect
         - krb5
         - openssl
         - readline         # [not win]
         - tzcode          # [not win]
+        - tzdata          # [not win]
         - zlib
         - libxml2
         - msinttypes       # [win and vc<14]
@@ -76,12 +81,15 @@ outputs:
         - openssl
         - readline         # [not win]
         - tzcode          # [not win]
+        - tzdata          # [not win]
         - zlib
+        #- conda-build
     test:
       commands:
         - postgres --help
-        - conda inspect linkages postgresql  # [not win]
-        - conda inspect objects postgresql  # [osx]
+        # requires conda build
+        #- conda inspect linkages postgresql  # [not win]
+        #- conda inspect objects postgresql  # [osx]
     script: install_db.sh   # [unix
     script: install_db.bat  # [win]
     about:
@@ -97,6 +105,7 @@ outputs:
         - {{ compiler('c') }}
         - perl                 # [win]
         - make                 # [unix]
+        - sysroot_linux-64=2.17 # [unix]
       host:
         # these are here for sake of run_exports taking effect
         - krb5     # [not osx]
@@ -104,7 +113,7 @@ outputs:
         - readline         # [not win]
         - zlib
         - {{ pin_subpackage('postgresql', exact=True) }}
-        - python
+        - python {{ python }}
         - libxml2
         - libxslt 1.1.*
         - msinttypes  # [win and py27]
@@ -112,16 +121,18 @@ outputs:
         - libuuid         # [not win]
       run:
         - {{ pin_subpackage('postgresql', exact=True) }}
-        - python
+        - python {{ python }}
         - krb5
         - openssl
         - readline         # [not win]
         - zlib
+        #- conda-build
     script: install_plpython.sh  # [unix]
     test:
       commands:
-        - conda inspect linkages postgresql-plpython  # [not win]
-        - conda inspect objects postgresql-plpython  # [osx]
+        # requires conda build
+        #- conda inspect linkages postgresql-plpython  # [not win]
+        #- conda inspect objects postgresql-plpython  # [osx]
     about:
       summary: The plpythonu postgresql extension
 
@@ -135,12 +146,14 @@ outputs:
         - {{ compiler('c') }}
         - perl                 # [win]
         - make             # [unix]
+        - sysroot_linux-64=2.17 # [unix]
       host:
         # these are here for sake of run_exports taking effect
         - krb5
         - openssl
         - readline         # [not win]
         - tzcode          # [not win]
+        - tzdata          # [not win]
         - zlib
         - msinttypes       # [win and vc<14]
     script: install_runtime.sh   # [unix]
@@ -163,12 +176,8 @@ about:
   home: http://www.postgresql.org/
   license: PostgreSQL
   license_file: COPYRIGHT
-  summary: multi-ouput recipe for postgresql
+  summary: multi-ouput recipe for postgresql with icu enabled
 
 extra:
   recipe-maintainers:
-    - gillins
-    - msarahan
-    - ocefpaf
-    - mariusvniekerk
-    - sodre
+    - motoharu-yano
