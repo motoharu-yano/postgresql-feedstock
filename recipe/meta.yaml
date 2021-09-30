@@ -84,6 +84,7 @@ outputs:
         - tzdata          # [not win]
         - zlib
         #- conda-build
+        - python {{ python }}
     test:
       commands:
         - postgres --help
@@ -156,6 +157,8 @@ outputs:
         - tzdata          # [not win]
         - zlib
         - msinttypes       # [win and vc<14]
+      run:
+        - python {{ python }}
     script: install_runtime.sh   # [unix]
     script: install_runtime.bat  # [win]
     test:
