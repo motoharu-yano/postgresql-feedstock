@@ -8,6 +8,15 @@ export CC=$(basename "$CC")
 export CXX=$(basename "$CXX")
 export FC=$(basename "$FC")
 
+# modify CPPFLAGS to avoid weird bug with conda-build where multiple similar placeholder paths are optimized by compiler
+# where different parts of executable reference different parts of similar string constant
+# in such case after installation into the environment - one of the placeholder paths gets broken (stuffed with zeroes)
+# you can read more about placeholders here:
+# https://github.com/conda/conda-build/issues/1482
+# https://docs.conda.io/projects/conda-build/en/latest/resources/make-relocatable.html
+# to avoid the issue we just add -O2 flag at the end of the CPPFLAGS because this is the string constant that gets
+# aliased with INCLUDEDIR and PKGINCLUDEDIR in pg_config (libpq package)
+
 ./configure \
     --prefix=$PREFIX \
     --with-readline \
@@ -19,21 +28,25 @@ export FC=$(basename "$FC")
     --with-libxslt \
     --with-gssapi \
     --with-icu \
-    --with-system-tzdata=$PREFIX/share/zoneinfo
+    --with-system-tzdata=$PREFIX/share/zoneinfo \
+    PG_SYSROOT="undefined" \
+    CPPFLAGS='-O2'
 
 make -j $CPU_COUNT
 make -j $CPU_COUNT -C contrib
 
-# make check # Failing with 'initdb: cannot be run as root'.
-if [ ${target_platform} == linux-64 ]; then
-    # osx, aarch64 and ppc64le checks fail in some strange ways
-    #on the test failures
-    #https://www.postgresql.org/docs/7.1/regress.html#AEN14406
+if [[ "${CONDA_BUILD_CROSS_COMPILATION}" != "1" ]]; then
+    # make check # Failing with 'initdb: cannot be run as root'.
+    if [ ${target_platform} == linux-64 ]; then
+        # osx, aarch64 and ppc64le checks fail in some strange ways
+        #on the test failures
+        #https://www.postgresql.org/docs/7.1/regress.html#AEN14406
 
-    #on random test fails and MAX_CONNECTIONS parameter
-    #https://www.postgresql.org/docs/10/regress-run.html
+        #on random test fails and MAX_CONNECTIONS parameter
+        #https://www.postgresql.org/docs/10/regress-run.html
 
-    make MAX_CONNECTIONS=2 check
-    make check -C contrib
+        make MAX_CONNECTIONS=2 check
+        make check -C contrib
+    fi
+    # make check -C src/interfaces/ecpg
 fi
-# make check -C src/interfaces/ecpg
