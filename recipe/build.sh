@@ -2,6 +2,8 @@
 
 # workaround for failing horology test
 cp ${RECIPE_DIR}/test_patches/horology.out ${SRC_DIR}/src/test/regress/expected/horology.out
+# workaround for name test because of NAMEDATALEN
+cp ${RECIPE_DIR}/test_patches/name.out ${SRC_DIR}/src/test/regress/expected/name.out
 
 # avoid absolute-paths in compilers
 export CC=$(basename "$CC")
@@ -31,6 +33,8 @@ export FC=$(basename "$FC")
     --with-system-tzdata=$PREFIX/share/zoneinfo \
     PG_SYSROOT="undefined" \
     CPPFLAGS='-O2'
+
+sed -i 's/#define NAMEDATALEN 64/#define NAMEDATALEN 256/g' ./src/include/pg_config_manual.h
 
 make -j $CPU_COUNT
 make -j $CPU_COUNT -C contrib
