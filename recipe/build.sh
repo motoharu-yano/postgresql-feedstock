@@ -41,6 +41,15 @@ export FC=$(basename "$FC")
     PG_SYSROOT="undefined" \
     CPPFLAGS='-O2'
 
+# src/include/pg_config_manual.h
+# https://www.postgresql.org/docs/current/sql-syntax-lexical.html#SQL-SYNTAX-IDENTIFIERS
+
+# list of static parameters that are left out of postgresql.conf - max_identifier_length
+# https://www.postgresql.org/docs/9.3/runtime-config-preset.html
+
+# about patching
+# https://stackoverflow.com/questions/3836247/how-do-i-change-the-namedatalen-configuration-after-installing-postgresql-9-0
+
 sed -i 's/#define NAMEDATALEN 64/#define NAMEDATALEN 256/g' ./src/include/pg_config_manual.h
 
 make -j $CPU_COUNT
