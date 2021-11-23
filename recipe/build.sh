@@ -4,6 +4,7 @@
 cp ${RECIPE_DIR}/test_patches/horology.out ${SRC_DIR}/src/test/regress/expected/horology.out
 # workaround for name test because of NAMEDATALEN
 cp ${RECIPE_DIR}/test_patches/name.out ${SRC_DIR}/src/test/regress/expected/name.out
+cp ${RECIPE_DIR}/test_patches/enum.out ${SRC_DIR}/src/test/regress/expected/enum.out
 
 # avoid absolute-paths in compilers
 export CC=$(basename "$CC")
