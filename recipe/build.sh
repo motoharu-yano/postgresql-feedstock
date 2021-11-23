@@ -9,6 +9,8 @@ cp ${RECIPE_DIR}/test_patches/create_view.out ${SRC_DIR}/src/test/regress/expect
 cp ${RECIPE_DIR}/test_patches/join.out ${SRC_DIR}/src/test/regress/expected/join.out
 cp ${RECIPE_DIR}/test_patches/async.out ${SRC_DIR}/src/test/regress/expected/async.out
 cp ${RECIPE_DIR}/test_patches/rowsecurity.out ${SRC_DIR}/src/test/regress/expected/rowsecurity.out
+cp ${RECIPE_DIR}/test_patches/misc_functions.out ${SRC_DIR}/src/test/regress/expected/misc_functions.out
+cp ${RECIPE_DIR}/test_patches/foreign_key.out ${SRC_DIR}/src/test/regress/expected/foreign_key.out
 
 # avoid absolute-paths in compilers
 export CC=$(basename "$CC")
