@@ -7,6 +7,8 @@ cp ${RECIPE_DIR}/test_patches/name.out ${SRC_DIR}/src/test/regress/expected/name
 cp ${RECIPE_DIR}/test_patches/enum.out ${SRC_DIR}/src/test/regress/expected/enum.out
 cp ${RECIPE_DIR}/test_patches/create_view.out ${SRC_DIR}/src/test/regress/expected/create_view.out
 cp ${RECIPE_DIR}/test_patches/join.out ${SRC_DIR}/src/test/regress/expected/join.out
+cp ${RECIPE_DIR}/test_patches/async.out ${SRC_DIR}/src/test/regress/expected/async.out
+cp ${RECIPE_DIR}/test_patches/rowsecurity.out ${SRC_DIR}/src/test/regress/expected/rowsecurity.out
 
 # avoid absolute-paths in compilers
 export CC=$(basename "$CC")
