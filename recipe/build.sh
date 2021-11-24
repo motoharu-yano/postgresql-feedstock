@@ -37,9 +37,10 @@ export FC=$(basename "$FC")
     --with-libxslt \
     --with-gssapi \
     --with-icu \
+    --with-systemd \
     --with-system-tzdata=$PREFIX/share/zoneinfo \
     PG_SYSROOT="undefined" \
-    CPPFLAGS='-O2'
+    CPPFLAGS="-O2"
 
 # src/include/pg_config_manual.h
 # https://www.postgresql.org/docs/current/sql-syntax-lexical.html#SQL-SYNTAX-IDENTIFIERS
