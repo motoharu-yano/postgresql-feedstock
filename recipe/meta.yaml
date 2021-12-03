@@ -3,7 +3,7 @@
 
 package:
   name: postgresql-split
-  version: {{ version }}
+  version: {{ version }}.2
 
 source:
   url: https://ftp.postgresql.org/pub/source/v{{ version }}/postgresql-{{ version }}.tar.bz2
@@ -47,7 +47,7 @@ requirements:
     - readline         # [not win]
     - zlib
     - vc  # [win]
-    - libuuid         # [not win]
+    - libuuid 2.32.1         # [not win]
     - tzcode          # [not win]
     - tzdata          # [not win]
     - libgpg-error
@@ -153,7 +153,7 @@ outputs:
         - libxslt 1.1.*
         - msinttypes  # [win and py27]
         - vc  # [win]
-        - libuuid         # [not win]
+        - libuuid 2.32.1         # [not win]
         - libgpg-error
         - pcre
         - libcap
