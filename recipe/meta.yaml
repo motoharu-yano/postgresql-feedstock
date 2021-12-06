@@ -3,7 +3,7 @@
 
 package:
   name: postgresql-split
-  version: {{ version }}.2
+  version: {{ version }}.3
 
 source:
   url: https://ftp.postgresql.org/pub/source/v{{ version }}/postgresql-{{ version }}.tar.bz2
@@ -41,6 +41,8 @@ requirements:
     - libxml2
     - libxslt 1.1.*
     - krb5
+    # make sure openldap is installed from conda-forge
+    - openldap 2.4.59
     - openssl
     - msinttypes  # [win and float(vc) < 14]
     - openssl
@@ -56,6 +58,8 @@ requirements:
     - lz4
   run:
     - krb5
+    # make sure openldap is installed from conda-forge
+    - openldap 2.4.59
     - openssl
     - readline        # [not win]
     - tzcode          # [not win]
@@ -85,6 +89,8 @@ outputs:
       host:
         # these are here for sake of run_exports taking effect
         - krb5
+        # make sure openldap is installed from conda-forge
+        - openldap 2.4.59
         - openssl
         - readline         # [not win]
         - tzcode          # [not win]
@@ -101,6 +107,8 @@ outputs:
       run:
         - {{ pin_subpackage('libpq', exact=True) }}
         - krb5
+        # make sure openldap is installed from conda-forge
+        - openldap 2.4.59
         - openssl
         - readline         # [not win]
         - tzcode          # [not win]
@@ -144,6 +152,8 @@ outputs:
       host:
         # these are here for sake of run_exports taking effect
         - krb5     # [not osx]
+        # make sure openldap is installed from conda-forge
+        - openldap 2.4.59
         - openssl
         - readline         # [not win]
         - zlib
@@ -162,6 +172,8 @@ outputs:
         - {{ pin_subpackage('postgresql', exact=True) }}
         - python {{ python }}
         - krb5
+        # make sure openldap is installed from conda-forge
+        - openldap 2.4.59
         - openssl
         - readline         # [not win]
         - zlib
@@ -198,6 +210,8 @@ outputs:
       host:
         # these are here for sake of run_exports taking effect
         - krb5
+        # make sure openldap is installed from conda-forge
+        - openldap 2.4.59
         - openssl
         - readline         # [not win]
         - tzcode          # [not win]

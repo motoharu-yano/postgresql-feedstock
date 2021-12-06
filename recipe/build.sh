@@ -36,6 +36,7 @@ export FC=$(basename "$FC")
     --with-libxml \
     --with-libxslt \
     --with-gssapi \
+    --with-ldap \
     --with-icu \
     --with-systemd \
     --with-system-tzdata=$PREFIX/share/zoneinfo \
