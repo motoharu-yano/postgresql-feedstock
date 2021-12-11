@@ -11,6 +11,7 @@ cp ${RECIPE_DIR}/test_patches/async.out ${SRC_DIR}/src/test/regress/expected/asy
 cp ${RECIPE_DIR}/test_patches/rowsecurity.out ${SRC_DIR}/src/test/regress/expected/rowsecurity.out
 cp ${RECIPE_DIR}/test_patches/misc_functions.out ${SRC_DIR}/src/test/regress/expected/misc_functions.out
 cp ${RECIPE_DIR}/test_patches/foreign_key.out ${SRC_DIR}/src/test/regress/expected/foreign_key.out
+cp ${RECIPE_DIR}/test_patches/incremental_sort.out ${SRC_DIR}/src/test/regress/expected/incremental_sort.out
 
 # avoid absolute-paths in compilers
 export CC=$(basename "$CC")
