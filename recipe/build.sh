@@ -49,10 +49,21 @@ export FC=$(basename "$FC")
 # list of static parameters that are left out of postgresql.conf - max_identifier_length
 # https://www.postgresql.org/docs/9.3/runtime-config-preset.html
 
-# about patching
+# about patching NAMEDATALEN
 # https://stackoverflow.com/questions/3836247/how-do-i-change-the-namedatalen-configuration-after-installing-postgresql-9-0
 
 sed -i 's/#define NAMEDATALEN 64/#define NAMEDATALEN 256/g' ./src/include/pg_config_manual.h
+
+# use kqueue instead of epoll to avoid these
+# https://github.com/citusdata/citus/issues/3275#issuecomment-944039069
+# https://github.com/citusdata/citus/pull/5466
+# https://github.com/citusdata/citus/issues/3589
+# disable epoll
+sed -i 's@#define HAVE_SYS_EPOLL_H 1@/\* #undef HAVE_SYS_EPOLL_H \*/@g' ./src/include/pg_config.h
+# enable system events
+sed -i 's@/\* #undef HAVE_SYS_EVENT_H \*/@#define HAVE_SYS_EVENT_H 1@g' ./src/include/pg_config.h
+# adjust include path
+sed -i 's@#include <sys/event.h>@#include <event.h>@g' ./src/backend/storage/ipc/latch.c
 
 make -j $CPU_COUNT
 make -j $CPU_COUNT -C contrib
